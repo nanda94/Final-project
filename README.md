@@ -1,6 +1,4 @@
-# Title: 
-
-#Simulation of Course Workload and Academic Pressure for U of I Students
+# Title: Simulation of Course Workload and Academic Pressure for U of I Students
 
 ## Team Member(s): Shreenandan Rajarathnam
 
@@ -9,8 +7,11 @@
 The objective of this simulation is to check the study workload of students during a semester and predict the busiest for the students. The workload and pressure on students depend on multiple factors (or parameters) including but not restricted to the following:
 
 No. of credits (or courses) taken per semester
+
 No. of assignments, projects, and exams (and other tasks)
+
 No. of tasks (assignments, exams, projects and etc.) that are pending or due at a given time period 
+
 Difficulty level of each task (assignments, exams, projects and etc.) 
 
 A combination of the aforementioned factors determines the amount of time and effort a student needs to put in at any time. If we divide the semester into 13 weeks (could be a different number), the number of tasks pending, the time required to be dedicated (cumulative of time required for all tasks due) and difficulty level of the tasks are random or can be assumed to be random for practical applications. The number of parameters involved makes this a complex system to understand. Therefore, a Monte Carlo simulation could be employed to simulate the system and predict or determine which weeks would be most hectic, in terms of academic workload. 
