@@ -12,6 +12,8 @@
 #
 #Simulation of Course Workload and Academic Pressure for U of I Students
 
+import numpy as np
+
 class AcademicTask:
     '''
         A class that represents 1 academic task (assignment, project, research paper deliverable, exam and etc.) in a week.
@@ -27,7 +29,7 @@ class AcademicWeek:
     '''
     #_tasks = {}
     
-    def __init__(self, week_no: int):
+    def __init__(self, week_no: int, has_exams: bool = False, has_project: bool = False):
         self._week_no = week_no
 
     def get_week_no(self):
@@ -44,8 +46,36 @@ class Course:
         self._course_name = course_name
         self._course_code = course_code
 
-        for i in range(14): # 14 is the number of weeks in a semester (can be changed to a different value if needed)
-            self._academic_weeks.update({i:AcademicWeek(i)})
+        has_exams = round(np.random.random()) # I assume likelyhood of having (or not having) exams in a course to be equal, as per my experience at iSchool, UIUC
+        has_project = round(np.random.random()) # I assume likelyhood of having (or not having) a project in a course to be equal, as per my experience at iSchool, UIUC
+        
+        # I assume that if a course may have either 2 exams (mid. and final or none). Similarly for project deliverables.
+        mid_term_exam = 0 # week of mid-term exam
+        final_exam = 0 # week of final exam
+        mid_project_deliverable = 0 # week when mid-term deliverable is due
+        final_project_deliverable = 0 # week when final deliverable is due
+        
+        if has_exams == 1:
+            mid_term_exam = int(round(np.random.triangular(5,7,8,1)[0])) # mid-term exam scheduled sometime between weeks 5-8 with most likelihood of week 7
+            final_exam = int(round(np.random.triangular(12,14,14,1)[0])) # mid-term exam scheduled sometime between weeks 12-14 with most likelihood of week 14 (finals week)
+        
+        for i in range(1,15): # 14 is the number of weeks in a semester (can be changed to a different value if needed)
+            arg_exam = False
+            arg_project = False
+            
+            if has_exams == 1:
+                if i == mid_term_exam:
+                    arg_exam = True
+                elif i == final_exam:
+                    arg_exam = True
+                        
+            if has_project == 1:
+                if i == mid_project_deliverable:
+                    arg_project = True
+                elif i == final_project_deliverable:
+                    arg_project = True
+            
+            self._academic_weeks.update({i:AcademicWeek(i,arg_exam,arg_project)})
             print(self._academic_weeks[i].get_week_no())
 
 class Student:
