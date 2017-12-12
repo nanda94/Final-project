@@ -29,7 +29,7 @@ class AcademicWeek:
     '''
     #_tasks = {}
     
-    def __init__(self, week_no: int, has_exams: bool = False, has_project: bool = False):
+    def __init__(self, week_no: int, has_exam: bool = False, has_project: bool = False, has_assignment: bool = False):
         self._week_no = week_no
 
     def get_week_no(self):
@@ -49,7 +49,24 @@ class Course:
         has_exams = round(np.random.random()) # I assume likelyhood of having (or not having) exams in a course to be equal, as per my experience at iSchool, UIUC
         has_project = round(np.random.random()) # I assume likelyhood of having (or not having) a project in a course to be equal, as per my experience at iSchool, UIUC
         
-        # I assume that if a course may have either 2 exams (mid. and final or none). Similarly for project deliverables.
+        # Assignments generally tend to be either weekly, or bi-weekly (fortnightly)
+        
+        assignments_frequency = round(np.random.random()) # if 0 -> weekly assingments, else 1 -> bi-weekly (fortnightly) assignments
+        assignment_starting_week = round(np.random.random()) # may start either from week 1 (if 0), or week 2 (if 1)
+        
+        assignment_weeks = []
+        if assignments_frequency == 0:
+            if assignment_starting_week == 0:
+                assignment_weeks = [1,2,3,4,5,6,7,8,9,10,11,12,13]
+            elif assignment_starting_week == 1:
+                assignment_weeks = [2,3,4,5,6,7,8,9,10,11,12,13,14]
+        elif assignments_frequency == 1:
+            if assignment_starting_week == 0:
+                assignment_weeks = [1,3,5,7,9,11,13]
+            elif assignment_starting_week == 1:
+                assignment_weeks = [2,4,6,8,10,12,14]
+        
+        # I assume that a course may have either 2 exams (mid. and final or none), or no exams. Similarly for project deliverables.
         mid_term_exam = 0 # week of mid-term exam
         final_exam = 0 # week of final exam
         mid_project_deliverable = 0 # week when mid-term deliverable is due
@@ -62,6 +79,7 @@ class Course:
         for i in range(1,15): # 14 is the number of weeks in a semester (can be changed to a different value if needed)
             arg_exam = False
             arg_project = False
+            arg_assignment = False
             
             if has_exams == 1:
                 if i == mid_term_exam:
@@ -74,8 +92,11 @@ class Course:
                     arg_project = True
                 elif i == final_project_deliverable:
                     arg_project = True
+        
+            if i in assignment_weeks:
+                arg_assignment = True
             
-            self._academic_weeks.update({i:AcademicWeek(i,arg_exam,arg_project)})
+            self._academic_weeks.update({i:AcademicWeek(i, arg_exam, arg_project, arg_assignment)})
             print(self._academic_weeks[i].get_week_no())
 
 class Student:
