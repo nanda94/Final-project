@@ -27,10 +27,23 @@ class AcademicWeek:
     '''
         A class that represents 1 academic week (for a course) in a semester.
     '''
-    #_tasks = {}
+    _tasks = {}
     
-    def __init__(self, week_no: int, has_exam: bool = False, has_project: bool = False, has_assignment: bool = False):
+    def __init__(self, week_no: int, has_exam: bool = False, has_project: bool = False, has_assignment: bool = False, has_quiz: bool = False):
         self._week_no = week_no
+        self._has_exam = has_exam
+        self._has_project = has_project
+        self._has_assignment = has_assignment
+        self._has_quiz = has_quiz
+    
+        if has_exam == True:
+            exam_difficulty = 0
+            exam_duration = 0
+            
+            exam_difficulty = int(round(np.random.normal(7,1,1)[0])) # As per my experience at iSchool, UIUC, the difficulty of exams would mostly be around 6-8 (on a scale of 10), sometimes as low as 5 or high as 9, and rarely 4 or 10
+            exam_duration = round(np.random.random()) + 2 # Exam duration is mostly either 2 hours, or 3 hours
+            
+            self._tasks.update({'Exam':AcademicTask('Exam', exam_difficulty, exam_duration)})
 
     def get_week_no(self):
         return self._week_no
@@ -48,6 +61,7 @@ class Course:
 
         has_exams = round(np.random.random()) # I assume likelyhood of having (or not having) exams in a course to be equal, as per my experience at iSchool, UIUC
         has_project = round(np.random.random()) # I assume likelyhood of having (or not having) a project in a course to be equal, as per my experience at iSchool, UIUC
+        has_quiz = round(np.random.random()) # likelyhood of having (or not having) quizzes
         
         # Assignments generally tend to be either weekly, or bi-weekly (fortnightly)
         
@@ -80,6 +94,8 @@ class Course:
             arg_exam = False
             arg_project = False
             arg_assignment = False
+            arg_quiz = False
+            quiz_this_week = 0
             
             if has_exams == 1:
                 if i == mid_term_exam:
@@ -93,10 +109,15 @@ class Course:
                 elif i == final_project_deliverable:
                     arg_project = True
         
+            if has_quiz == 1:
+                quiz_this_week = round(np.random.random())
+                if quiz_this_week == 1:
+                    arg_quiz = True
+        
             if i in assignment_weeks:
                 arg_assignment = True
             
-            self._academic_weeks.update({i:AcademicWeek(i, arg_exam, arg_project, arg_assignment)})
+            self._academic_weeks.update({i:AcademicWeek(i, arg_exam, arg_project, arg_assignment, arg_quiz)})
             print(self._academic_weeks[i].get_week_no())
 
 class Student:
