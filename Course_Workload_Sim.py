@@ -13,6 +13,8 @@
 #Simulation of Course Workload and Academic Pressure for U of I Students
 
 import numpy as np
+import texttable as tt
+import matplotlib.pyplot as plt
 
 class AcademicTask:
     '''
@@ -78,13 +80,6 @@ class AcademicWeek:
             
             self._tasks.update({'Quiz':AcademicTask('Quiz', quiz_difficulty, quiz_duration)})
 
-#    def get_week_no(self):
-#        return self._week_no
-#
-#    def print_tasks(self):
-#        for task_name, task_details in self._tasks.items():
-#            print(task_name)
-
     def get_weekly_stats(self):
         no_of_tasks = 0
         no_of_hours = 0
@@ -104,6 +99,8 @@ class Course:
     '''
     
     _academic_weeks = {}
+    # for printing weekly tasks statistics for the course in table form
+    tab = tt.Texttable()
     
     def __init__(self, course_name: str, course_code: str):
         self._course_name = course_name
@@ -135,6 +132,9 @@ class Course:
         final_exam = 0 # week of final exam
         mid_project_deliverable = 0 # week when mid-term deliverable is due
         final_project_deliverable = 0 # week when final deliverable is due
+    
+        heading = ['Week No.', 'No. of Tasks', 'Total no. of Hours', 'Weighted Difficulty',]
+        self.tab.header(heading)
         
         if has_exams == 1:
             mid_term_exam = int(round(np.random.triangular(5,7,8,1)[0])) # mid-term exam scheduled sometime between weeks 5-8 with most likelihood of week 7
@@ -144,6 +144,10 @@ class Course:
             mid_project_deliverable = int(round(np.random.triangular(5,7,8,1)[0])) # mid-term project deliverable scheduled sometime between weeks 5-8 with most likelihood of week 7
             final_project_deliverable = int(round(np.random.triangular(12,14,14,1)[0])) # final project deliverable scheduled sometime between weeks 12-14 with most likelihood of week 14 (finals week)
         
+        week_no_list = []
+        no_of_hours_list = []
+        no_of_tasks_list = []
+        weighted_difficulty_list = []
         for i in range(1,15): # 14 is the number of weeks in a semester (can be changed to a different value if needed)
             arg_exam = False
             arg_project = False
@@ -172,11 +176,42 @@ class Course:
                 arg_assignment = True
             
             self._academic_weeks.update({i:AcademicWeek(i, arg_exam, arg_project, arg_assignment, arg_quiz)})
-#            print(self._academic_weeks[i].get_week_no())
-#            self._academic_weeks[i].print_tasks()
 
+            # Gets the details for the tasks for each week
             week_no, no_of_tasks, no_of_hours, weighted_difficulty = self._academic_weeks[i].get_weekly_stats()
-            print(week_no, no_of_tasks, no_of_hours, weighted_difficulty)
+
+            # for adding rows in the table
+            row = [week_no, no_of_tasks, no_of_hours, weighted_difficulty]
+            self.tab.add_row(row)
+            week_no_list.append(week_no)
+            weighted_difficulty_list.append(weighted_difficulty)
+            no_of_tasks_list.append(no_of_tasks)
+            no_of_hours_list.append(no_of_hours)
+    
+        s = self.tab.draw()
+        print('\n')
+        print(s)
+
+        # for plotting charts for No. of tasks per week, no. of hours required per week and weighted difficulty per week, for 1 course
+        plt.figure(figsize=(10,8))
+        plt.subplots_adjust(hspace = 0.4)
+
+        plt.subplot(3, 1, 1)
+        plt.plot(week_no_list, no_of_hours_list)
+        plt.ylabel('No. of Hours Required')
+        plt.xlabel('Week')
+
+        plt.subplot(3, 1, 2)
+        plt.plot(week_no_list, no_of_tasks_list)
+        plt.ylabel('No. of Tasks')
+        plt.xlabel('Week')
+
+        plt.subplot(3, 1, 3)
+        plt.plot(week_no_list, weighted_difficulty_list)
+        plt.ylabel('Weighted Difficulty')
+        plt.xlabel('Week')
+
+        plt.show()
 
 class Student:
     '''
