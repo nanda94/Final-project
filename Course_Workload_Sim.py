@@ -23,6 +23,12 @@ class AcademicTask:
         self._difficulty_level = difficulty_level
         self._no_of_hours_of_work = no_of_hours_of_work
 
+    def get_no_of_hours_of_work(self):
+            return self._no_of_hours_of_work
+
+    def get_difficulty(self):
+        return self._difficulty_level
+
 class AcademicWeek:
     '''
         A class that represents 1 academic week (for a course) in a semester.
@@ -72,8 +78,25 @@ class AcademicWeek:
             
             self._tasks.update({'Quiz':AcademicTask('Quiz', quiz_difficulty, quiz_duration)})
 
-    def get_week_no(self):
-        return self._week_no
+#    def get_week_no(self):
+#        return self._week_no
+#
+#    def print_tasks(self):
+#        for task_name, task_details in self._tasks.items():
+#            print(task_name)
+
+    def get_weekly_stats(self):
+        no_of_tasks = 0
+        no_of_hours = 0
+        weighted_difficulty = 0.0
+        for task_name, task_details in self._tasks.items():
+            no_of_tasks = no_of_tasks + 1
+            no_of_hours = no_of_hours + task_details.get_no_of_hours_of_work()
+            weighted_difficulty = weighted_difficulty + (task_details.get_difficulty() * task_details.get_no_of_hours_of_work())
+    
+        if no_of_hours != 0:
+                weighted_difficulty = weighted_difficulty / no_of_hours
+        return (self._week_no, no_of_tasks, no_of_hours, weighted_difficulty)
 
 class Course:
     '''
@@ -117,6 +140,10 @@ class Course:
             mid_term_exam = int(round(np.random.triangular(5,7,8,1)[0])) # mid-term exam scheduled sometime between weeks 5-8 with most likelihood of week 7
             final_exam = int(round(np.random.triangular(12,14,14,1)[0])) # mid-term exam scheduled sometime between weeks 12-14 with most likelihood of week 14 (finals week)
         
+        if has_project == 1:
+            mid_project_deliverable = int(round(np.random.triangular(5,7,8,1)[0])) # mid-term project deliverable scheduled sometime between weeks 5-8 with most likelihood of week 7
+            final_project_deliverable = int(round(np.random.triangular(12,14,14,1)[0])) # final project deliverable scheduled sometime between weeks 12-14 with most likelihood of week 14 (finals week)
+        
         for i in range(1,15): # 14 is the number of weeks in a semester (can be changed to a different value if needed)
             arg_exam = False
             arg_project = False
@@ -145,7 +172,11 @@ class Course:
                 arg_assignment = True
             
             self._academic_weeks.update({i:AcademicWeek(i, arg_exam, arg_project, arg_assignment, arg_quiz)})
-            print(self._academic_weeks[i].get_week_no())
+#            print(self._academic_weeks[i].get_week_no())
+#            self._academic_weeks[i].print_tasks()
+
+            week_no, no_of_tasks, no_of_hours, weighted_difficulty = self._academic_weeks[i].get_weekly_stats()
+            print(week_no, no_of_tasks, no_of_hours, weighted_difficulty)
 
 class Student:
     '''
