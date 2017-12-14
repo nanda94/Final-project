@@ -193,7 +193,10 @@ class Course:
         print(s)
 
         # for plotting charts for No. of tasks per week, no. of hours required per week and weighted difficulty per week, for 1 course
+
         plt.figure(figsize=(10,8))
+        fig = plt.gcf()
+        fig.canvas.set_window_title(self._course_name + ' (' + self._course_code + ')')
         plt.subplots_adjust(hspace = 0.4)
 
         plt.subplot(3, 1, 1)
@@ -210,21 +213,28 @@ class Course:
         plt.plot(week_no_list, weighted_difficulty_list)
         plt.ylabel('Weighted Difficulty')
         plt.xlabel('Week')
-
+        
         plt.show()
 
 class Student:
     '''
         A class that represents the student.
     '''
-
+    
+    _courses = {}
+    
     def __init__(self, student_name: str, netID: str, UIN: str):
         self._student_name = student_name
         self._netID = netID
         self._UIN = UIN
 
+        no_of_courses = int(input('\nEnter the number of courses taken this semester: '))
+        for i in range(1,no_of_courses + 1):
+            print('\nCourse Name: CourseName' + str(i) + '\nCourse Code: CourseCode0' + str(i))
+            self._courses.update({i:Course('CourseName' + str(i), 'CourseCode0' + str(i))}) # for future if program would take course name and course codes, as of now that is beyond the scope of the simulation
+
 def main():
-    c_obj = Course('CourseName','CourseCode')
+    s_obj = Student('StudentName','NetID','UIN')
 
 if __name__ == "__main__":
     main()
