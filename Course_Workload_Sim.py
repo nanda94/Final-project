@@ -45,6 +45,33 @@ class AcademicWeek:
             
             self._tasks.update({'Exam':AcademicTask('Exam', exam_difficulty, exam_duration)})
 
+        if has_project == True:
+            project_difficulty = 0
+            project_duration = 0
+            
+            project_difficulty = int(round(np.random.normal(7,1,1)[0])) # As per my experience at iSchool, UIUC, the difficulty of projects would mostly be around 6-8 (on a scale of 10), sometimes as low as 5 or high as 9, and rarely 4 or 10
+            project_duration = int(round(np.random.normal(7,1,1)[0])) # No. of hours required per week for project is similar to difficulty (overall duration is high)
+            
+            self._tasks.update({'Project':AcademicTask('Project', project_difficulty, project_duration)})
+
+        if has_assignment == True:
+            assignment_difficulty = 0
+            assignment_duration = 0
+            
+            assignment_difficulty = int(round(np.random.triangular(1,5,10,1)[0])) # As per my experience at iSchool, UIUC, the difficulty of assignments would mostly be anywhere between 1-10 with 7 most likely
+            assignment_duration = int(round(np.random.triangular(1,5,10,1)[0])) # As per my experience at iSchool, UIUC, the no. of hours required per week for assignments would mostly be anywhere between 1-10 with 5 most likely
+            
+            self._tasks.update({'Assignment':AcademicTask('Assignment', assignment_difficulty, assignment_duration)})
+
+        if has_quiz == True:
+            quiz_difficulty = 0
+            quiz_duration = 0
+            
+            quiz_difficulty = int(round(np.random.triangular(1,5,10,1)[0])) # As per my experience at iSchool, UIUC, the difficulty of assignments would mostly be anywhere between 1-10 with 5 most likely
+            quiz_duration = int(round(np.random.triangular(1,2,3,1)[0])) # As per my experience at iSchool, UIUC, the no. of hours required per week for assignments would mostly be anywhere between 1-3 with 2 most likely
+            
+            self._tasks.update({'Quiz':AcademicTask('Quiz', quiz_difficulty, quiz_duration)})
+
     def get_week_no(self):
         return self._week_no
 
@@ -61,7 +88,7 @@ class Course:
 
         has_exams = round(np.random.random()) # I assume likelyhood of having (or not having) exams in a course to be equal, as per my experience at iSchool, UIUC
         has_project = round(np.random.random()) # I assume likelyhood of having (or not having) a project in a course to be equal, as per my experience at iSchool, UIUC
-        has_quiz = round(np.random.random()) # likelyhood of having (or not having) quizzes
+        has_quiz = round(np.random.random()) # likelihood of having (or not having) quizzes
         
         # Assignments generally tend to be either weekly, or bi-weekly (fortnightly)
         
