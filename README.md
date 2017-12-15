@@ -6,15 +6,15 @@
 
 The objective of this simulation is to check the study workload of students during a semester and predict the busiest for the students. The workload and pressure on students depend on multiple factors (or parameters) including but not restricted to the following:
 
-No. of credits (or courses) taken per semester
+No. of courses (or credits) taken per semester
 
-No. of assignments, projects, and exams (and other tasks)
+No. of assignments, project deliverables, and exams (and other tasks)
 
 No. of tasks (assignments, exams, projects and etc.) that are pending or due at a given time period 
 
 Difficulty level of each task (assignments, exams, projects and etc.) 
 
-A combination of the aforementioned factors determines the amount of time and effort a student needs to put in at any time. If we divide the semester into 13 weeks (could be a different number), the number of tasks pending, the time required to be dedicated (cumulative of time required for all tasks due) and difficulty level of the tasks are random or can be assumed to be random for practical applications. The number of parameters involved makes this a complex system to understand. Therefore, a Monte Carlo simulation could be employed to simulate the system and predict or determine which weeks would be most hectic, in terms of academic workload. 
+A combination of the aforementioned factors determines the amount of time and effort a student needs to put in at any time. If we divide the semester into 14 weeks (could be a different number), the number of tasks pending, the time required to be dedicated (cumulative of time required for all tasks due) and difficulty level of the tasks are random or can be assumed to be random for practical applications. The number of parameters involved makes this a complex system to understand. Therefore, a Monte Carlo simulation could be employed to simulate the system and predict or determine which weeks would be most hectic, in terms of academic workload. 
 
 Assumptions:
 There are certain assumptions and considerations, for example, the courses taken and department/program and/or level of courses could impact the difficulty level and time taken for tasks in a subject. For practical purposes of the study, we consider these random for simulation. 
@@ -27,24 +27,31 @@ Actual simulation and other methods of data analysis could provide counter-intui
 
 ### Simulation's variables of uncertainty
 
-The input variables or parameters of uncertainty would be the tasks pending or due per week (assignments, exams, projects and etc.), the difficulty levels of the tasks and time taken for each task. These depend on the number of credits (or courses) taken which is also an input variable, however, that is not random.
+The input variables or parameters of uncertainty would be the tasks pending or due per week (assignments, exams, projects and etc.), the difficulty levels of the tasks and time taken for each task. These depend on the number of coursess (or credits) taken which is also an input variable, however, that is not random.
 
 Ranges of the variables would be based on the pattern followed by the School of Information Sciences, UIUC (could be any other department as well). For probability distribution, real-world data will be analyzed/compared (sample of students and their course schedules) and considered for this project.
 
-I believe using real-world data for analysis and/or comparison is a good representation of reality.  
+Multiple distributions (Normal distribution and Triangular distribution) have been used according to context (see comments in the code).
+
+I believe using real-world data for analysis and/or comparison is a good representation of reality. Therefore, an example course from the School of Information Sciences, UIUC has been considered for comparison (check Real_Courses.pdf).
 
 ## Instructions on how to use the program:
 
-Firstly, the program takes the input values for the aforementioned parameters/variables.
+For an illustrative walkthrough, check the Conclusion.pdf file, which contains sample input along with screenshots of terminal output and graphs. The analysis has been explained with conclusion. 
 
-The program then performs the simulation to check the busiest or most hectic week/s and checks if the hypothesis holds true.
+Instructions:
+Enter user input for number of courses. The program runs simulation and displays output graphs for each course, followed by a graphical representation of total workload (across all courses for the semester). 
 
-The program also computes and compares the results of the data from the available dataset (a small sample of students from the School of Information Sciences) along with the simulation results.
+#Conclusion:
+
+We can conclude that the hypothesis does not always hold true (based on multiple simulation runs). Sometimes, the most hectic time for students could be weeks other than the mid-term and finals weeks.
+
+(for a detailed explanation, refer to Conclusion.pdf file)
 
 
 ## Sources Used:
 
-For this project, I intend to use real-world data. The first step is to take a small sample of students from the School of Information Sciences (or any other department) and analyze their schedules and workload (for different combinations of courses). Next step would be to check if the hypothesis is validated or refuted, and also if the simulations provide a similar outcome. 
+For this project, an example course from the School of Information Sciences, UIUC has been considered for comparison (check Real_Courses.pdf). 
 
 References:
 
