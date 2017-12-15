@@ -18,14 +18,21 @@ import matplotlib.pyplot as plt
 
 #the following are variables to hold cumulative values across multiple weeks for multiple courses and hence global as they are larger than the scope of the individual classes
 total_tasks = []
-sum_weighted_difficulty = []
 total_no_of_hours = []
+sum_weighted_difficulty = [] # Note that this variable holds the summation and not the final values for weighted difficulty(refer to 4th comment on main, after declaring Student object)
 
 class AcademicTask:
     '''
-        A class that represents 1 academic task (assignment, project, research paper deliverable, exam and etc.) in a week.
+        A class that represents 1 academic task (exam, assignment, project deliverable, quiz and etc.) in a week.
     '''
     def __init__(self, type_of_task: str, difficulty_level: int, no_of_hours_of_work: int):
+        '''
+            Initializer for AcademicTask class.
+            :param type_of_task: Type of task (Exam, assignment, project deliverable or quiz)
+            :param difficulty_level: Difficulty level for the task (on a scale of 10)
+            :param no_of_hours_of_work: No. of hours of work required for completing the task (per academic week)
+        '''
+        
         self._type_of_task = type_of_task
         self._difficulty_level = difficulty_level
         self._no_of_hours_of_work = no_of_hours_of_work
@@ -43,6 +50,15 @@ class AcademicWeek:
     _tasks = {}
     
     def __init__(self, week_no: int, has_exam: bool = False, has_project: bool = False, has_assignment: bool = False, has_quiz: bool = False):
+        '''
+            Initializer for AcademicWeek class.
+            :param week_no: Academic week number in the semester (1-14)
+            :param has_exam: True or False corresponding to whether or not the AcademicWeek has an exam
+            :param has_project: True or False corresponding to whether or not the AcademicWeek has a project deliverable due
+            :param has_assignment: True or False corresponding to whether or not the AcademicWeek has an assignment
+            :param has_quiz: True or False corresponding to whether or not the AcademicWeek has a quiz
+        '''
+        
         self._week_no = week_no
         self._has_exam = has_exam
         self._has_project = has_project
@@ -86,6 +102,10 @@ class AcademicWeek:
             self._tasks.update({'Quiz':AcademicTask('Quiz', quiz_difficulty, quiz_duration)})
 
     def get_weekly_stats(self):
+        '''
+            Function to get weekly statistics (total no. of tasks per week, total no. of hours of work per week, total weighted difficulty per week).
+            :return (self._week_no, no_of_tasks, no_of_hours, weighted_difficulty): Returns tuple containing the academic week number, total no. of tasks per week, total no. of hours of work per week, total weighted difficulty per week
+        '''
         no_of_tasks = 0
         no_of_hours = 0
         weighted_difficulty = 0.0
@@ -108,6 +128,11 @@ class Course:
     tab = tt.Texttable()
     
     def __init__(self, course_name: str, course_code: str):
+        '''
+            Initializer for Course class.
+            :param course_name: Name of the course (for future use, if program requires taking user input)
+            :param course_code: Course code for the given course
+        '''
         self._course_name = course_name
         self._course_code = course_code
 
@@ -237,6 +262,12 @@ class Student:
     _courses = {}
     
     def __init__(self, student_name: str, netID: str, UIN: str):
+        '''
+            Initializer for Student class.
+            :param student_name: Name of the student (for future use, if program requires taking user input)
+            :param netID: NetID of the student
+            :param UIN: UIN of the student
+        '''
         self._student_name = student_name
         self._netID = netID
         self._UIN = UIN
@@ -252,6 +283,9 @@ class Student:
             self._courses.update({i:Course('CourseName' + str(i), 'CourseCode0' + str(i))}) # for future if program would take course name and course codes, as of now that is beyond the scope of the simulation
 
 def main():
+    """
+        Take user input for number of courses to simulate. Then create object of type Student and calculate total workload for the entire semester for the student (along with plotting a graph).
+    """
     global total_tasks
     global total_no_of_hours
     global sum_weighted_difficulty
@@ -267,7 +301,7 @@ def main():
         total_no_of_hours.append(0)
         sum_weighted_difficulty.append(0.0)
     # total_weighted_difficulty.append(0.0)
-    s_obj = Student('StudentName','NetID','UIN')
+    s_obj = Student('StudentName','NetID','UIN') # can take user input, but that is beyond the scope of this simulation project
 
     # for calculating the total weighted difficulty from summation of weighted difficulty (Formula: ( Σ (Difficulty * No_of_hours) /  Σ No_of_hours ))
     for i in range(1,15):
