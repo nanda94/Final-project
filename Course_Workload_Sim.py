@@ -271,13 +271,18 @@ class Student:
         self._student_name = student_name
         self._netID = netID
         self._UIN = UIN
+        no_of_courses = 0
         
-#        #following 3 are cumulative for all courses taken by student in a particular semester
-#        self._total_tasks = 0
-#        self._total_weighted_difficulty = 0
-#        self._total_no_of_hours = 0
+        try:
+            no_of_courses = int(input('\nEnter the number of courses taken this semester: '))
+        except ValueError:
+            print("\nInvalid input!")
+            exit(0)
 
-        no_of_courses = int(input('\nEnter the number of courses taken this semester: '))
+        if no_of_courses not in range(1,11): # I assume the no. of courses that can be taken is between 1 to 10 (there might be exceptions as well, but those are not taken for the sake of simplicity)
+            print('\nNot a practical input for number of courses!')
+            exit(0)
+
         for i in range(1,no_of_courses + 1):
             print('\nCourse Name: CourseName' + str(i) + '\nCourse Code: CourseCode0' + str(i))
             self._courses.update({i:Course('CourseName' + str(i), 'CourseCode0' + str(i))}) # for future if program would take course name and course codes, as of now that is beyond the scope of the simulation
