@@ -42,7 +42,7 @@ For an illustrative walkthrough, check the Conclusion.pdf file, which contains s
 Instructions:
 Enter user input for number of courses. The program runs simulation and displays output graphs for each course, followed by a graphical representation of total workload (across all courses for the semester). 
 
-#Conclusion:
+# Conclusion:
 
 We can conclude that the hypothesis does not always hold true (based on multiple simulation runs). Sometimes, the most hectic time for students could be weeks other than the mid-term and finals weeks.
 
