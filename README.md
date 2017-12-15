@@ -28,9 +28,13 @@ Actual simulation and other methods of data analysis could provide counter-intui
 ### Simulation's variables of uncertainty
 
 The following are the variables of uncertainty for the Monte Carlo Simulation:
+
 [1] Tasks pending or due per week (assignments, exams, projects and etc.)
+
 [2] Whether or not a course has any exams, projects and/or quizzes (also simulated -> some may have one or moreof the aforementioned)
+
 [3] Difficulty levels of the tasks
+
 [4] Time taken (no. of hours) for each task
 
 These depend on the number of coursess (or credits) taken which is also an input variable, however, that is not random.
