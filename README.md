@@ -27,11 +27,17 @@ Actual simulation and other methods of data analysis could provide counter-intui
 
 ### Simulation's variables of uncertainty
 
-The input variables or parameters of uncertainty would be the tasks pending or due per week (assignments, exams, projects and etc.), the difficulty levels of the tasks and time taken for each task. These depend on the number of coursess (or credits) taken which is also an input variable, however, that is not random.
+The following are the variables of uncertainty for the Monte Carlo Simulation:
+[1] Tasks pending or due per week (assignments, exams, projects and etc.)
+[2] Whether or not a course has any exams, projects and/or quizzes (also simulated -> some may have one or moreof the aforementioned)
+[3] Difficulty levels of the tasks
+[4] Time taken (no. of hours) for each task
+
+These depend on the number of coursess (or credits) taken which is also an input variable, however, that is not random.
 
 Ranges of the variables would be based on the pattern followed by the School of Information Sciences, UIUC (could be any other department as well). For probability distribution, real-world data will be analyzed/compared (sample of students and their course schedules) and considered for this project.
 
-Multiple distributions (Normal distribution and Triangular distribution) have been used according to context (see comments in the code).
+Random function and multiple distributions (Normal distribution and Triangular distribution) have been used according to context (see comments in the code).
 
 I believe using real-world data for analysis and/or comparison is a good representation of reality. Therefore, an example course from the School of Information Sciences, UIUC has been considered for comparison (check Real_Courses.pdf).
 
