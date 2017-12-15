@@ -24,6 +24,12 @@ sum_weighted_difficulty = [] # Note that this variable holds the summation and n
 class AcademicTask:
     '''
         A class that represents 1 academic task (exam, assignment, project deliverable, quiz and etc.) in a week.
+    >>> aobj = AcademicTask('Assignment',5,5)
+    >>> aobj.get_no_of_hours_of_work()
+    5
+    >>> aobj = AcademicTask('Assignment',7,2)
+    >>> aobj.get_difficulty()
+    7
     '''
     def __init__(self, type_of_task: str, difficulty_level: int, no_of_hours_of_work: int):
         '''
@@ -38,9 +44,17 @@ class AcademicTask:
         self._no_of_hours_of_work = no_of_hours_of_work
 
     def get_no_of_hours_of_work(self):
-            return self._no_of_hours_of_work
+        '''
+            Method to return no. of hours of work
+            :return self._no_of_hours_of_work: no. of hours of work
+        '''
+        return self._no_of_hours_of_work
 
     def get_difficulty(self):
+        '''
+            Method to difficulty level
+            :return self._difficulty_level: difficulty level
+        '''
         return self._difficulty_level
 
 class AcademicWeek:
@@ -267,6 +281,7 @@ class Student:
             :param student_name: Name of the student (for future use, if program requires taking user input)
             :param netID: NetID of the student
             :param UIN: UIN of the student
+            
         '''
         self._student_name = student_name
         self._netID = netID
@@ -344,3 +359,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    import doctest
+    doctest.testmod()
