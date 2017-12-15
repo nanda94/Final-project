@@ -16,6 +16,11 @@ import numpy as np
 import texttable as tt
 import matplotlib.pyplot as plt
 
+#the following are variables to hold cumulative values across multiple weeks for multiple courses and hence global as they are larger than the scope of the individual classes
+total_tasks = []
+sum_weighted_difficulty = []
+total_no_of_hours = []
+
 class AcademicTask:
     '''
         A class that represents 1 academic task (assignment, project, research paper deliverable, exam and etc.) in a week.
@@ -132,7 +137,8 @@ class Course:
         final_exam = 0 # week of final exam
         mid_project_deliverable = 0 # week when mid-term deliverable is due
         final_project_deliverable = 0 # week when final deliverable is due
-    
+        
+        self.tab = tt.Texttable()
         heading = ['Week No.', 'No. of Tasks', 'Total no. of Hours', 'Weighted Difficulty',]
         self.tab.header(heading)
         
@@ -148,6 +154,8 @@ class Course:
         no_of_hours_list = []
         no_of_tasks_list = []
         weighted_difficulty_list = []
+        
+        
         for i in range(1,15): # 14 is the number of weeks in a semester (can be changed to a different value if needed)
             arg_exam = False
             arg_project = False
@@ -187,6 +195,11 @@ class Course:
             weighted_difficulty_list.append(weighted_difficulty)
             no_of_tasks_list.append(no_of_tasks)
             no_of_hours_list.append(no_of_hours)
+            
+            # the following takes cumulative across various courses, and are for adding to the global variables initialized in the main
+            total_tasks[i - 1] = total_tasks[i - 1] + no_of_tasks # i - 1 because i ranges from 1 to 15
+            total_no_of_hours[i - 1] = total_no_of_hours[i - 1] + no_of_hours
+            sum_weighted_difficulty[i - 1] = sum_weighted_difficulty[i - 1] + (weighted_difficulty * no_of_hours)
     
         s = self.tab.draw()
         print('\n')
@@ -227,6 +240,11 @@ class Student:
         self._student_name = student_name
         self._netID = netID
         self._UIN = UIN
+        
+#        #following 3 are cumulative for all courses taken by student in a particular semester
+#        self._total_tasks = 0
+#        self._total_weighted_difficulty = 0
+#        self._total_no_of_hours = 0
 
         no_of_courses = int(input('\nEnter the number of courses taken this semester: '))
         for i in range(1,no_of_courses + 1):
@@ -234,7 +252,56 @@ class Student:
             self._courses.update({i:Course('CourseName' + str(i), 'CourseCode0' + str(i))}) # for future if program would take course name and course codes, as of now that is beyond the scope of the simulation
 
 def main():
+    global total_tasks
+    global total_no_of_hours
+    global sum_weighted_difficulty
+    total_weighted_difficulty = []
+    week_no_list = []
+    tab = tt.Texttable()
+    heading = ['Week No.', 'No. of Tasks', 'Total no. of Hours', 'Weighted Difficulty',]
+    tab.header(heading)
+    
+    # initial setting up
+    for i in range(1,15): # 14 is the number of weeks in a semester (can be changed to a different value if needed)
+        total_tasks.append(0)
+        total_no_of_hours.append(0)
+        sum_weighted_difficulty.append(0.0)
+    # total_weighted_difficulty.append(0.0)
     s_obj = Student('StudentName','NetID','UIN')
+
+    # for calculating the total weighted difficulty from summation of weighted difficulty (Formula: ( Σ (Difficulty * No_of_hours) /  Σ No_of_hours ))
+    for i in range(1,15):
+        total_weighted_difficulty.append(sum_weighted_difficulty[i - 1] / total_no_of_hours[i - 1])
+        week_no_list.append(i)
+        row = [i, total_tasks[i - 1], total_no_of_hours[i - 1], total_weighted_difficulty[i - 1]]
+        tab.add_row(row)
+
+    print('\nTotal course workload for the entire semester: ')
+    s = tab.draw()
+    print('\n')
+    print(s)
+
+    plt.figure(figsize=(10,8))
+    fig = plt.gcf()
+    fig.canvas.set_window_title('Total Workload For The Semester')
+    plt.subplots_adjust(hspace = 0.4)
+        
+    plt.subplot(3, 1, 1)
+    plt.plot(week_no_list, total_no_of_hours)
+    plt.ylabel('No. of Hours Required')
+    plt.xlabel('Week')
+        
+    plt.subplot(3, 1, 2)
+    plt.plot(week_no_list, total_tasks)
+    plt.ylabel('No. of Tasks')
+    plt.xlabel('Week')
+    
+    plt.subplot(3, 1, 3)
+    plt.plot(week_no_list, total_weighted_difficulty)
+    plt.ylabel('Weighted Difficulty')
+    plt.xlabel('Week')
+        
+    plt.show()
 
 if __name__ == "__main__":
     main()
